@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Gravitation Home{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" type="image/x-icon">
+<script type="module" src="../static/src/main.js"></script>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+{% endblock %}
+
+{% block main %}
+<canvas id="glCanvas" width="900" height="600"></canvas>
+{% endblock %}
