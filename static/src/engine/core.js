@@ -1,22 +1,23 @@
 // Type: Module
-// Name: main.js
+// Name: core.js
 // Gravitation
 // Author: Carlos Sousa
-// 11-01-2022
+// 16-01-2022
 // Description:
-//    Main javascript module. Initializes the canvas element with a WebGl 2 context
-//
+//    Core javascript module. Initializes the canvas element with a WebGl 2 context
+//    Compiles and Links a shader Program
 
 import * as vertexBuffer from "./vertexBuffer.js";
-import * as webGLProgram from "./program.js";
+import Shader from "./Shader.js";
 
 let mGL = null;
+let mShader = null;
 
 function getGL() {
   return mGL;
 }
 
-async function initWebGL(htmlCanvasID) {
+async function init(htmlCanvasID) {
   const canvas = document.getElementById(htmlCanvasID);
   mGL = canvas.getContext("webgl2") || canvas.getContext("experimental-webgl2");
 
@@ -26,35 +27,28 @@ async function initWebGL(htmlCanvasID) {
     return;
   }
 
-  // Set clear color to black, fully opaque
-  mGL.clearColor(0.0, 0.0, 0.0, 1.0);
-
   // Init vertex buffer
   vertexBuffer.init();
 
   // Load and compile the shaders
-  await webGLProgram.init("../static/src/vertexShader.glsl", "../static/src/fragmentShader.glsl");
+  mShader = new Shader();
+  await mShader.init("../static/src/shaders/vertexShader.glsl", "../static/src/shaders/fragmentShader.glsl");
 }
 
-function clearCanvas() {
+function clearCanvas(color) {
+  // Set clear color to black, fully opaque
+  mGL.clearColor(color[0], color[1], color[2], color[3]);
+
   // Clear the color buffer with specified clear color
   mGL.clear(mGL.COLOR_BUFFER_BIT)
 }
 
-function draw() {
+function draw(color) {
   // Activate the shader program
-  webGLProgram.activate();
+  mShader.activate(color);
 
   // Draw the geometry
   mGL.drawArrays(mGL.TRIANGLE_STRIP, 0, 4);
 }
-  
-  window.onload = function() {
-    initWebGL("glCanvas")
-      .then(() => {
-        clearCanvas();
-        draw();
-      });
-  }
 
-  export { getGL }
+export { getGL, init, clearCanvas, draw }

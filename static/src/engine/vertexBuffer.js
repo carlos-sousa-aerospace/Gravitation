@@ -4,10 +4,10 @@
 // Author: Carlos Sousa
 // 15-01-2022
 // Description:
-//    Main javascript file. Loads the canvas content and binds listeners
+//    Creates a vertex buffer with the vertices of the geometry to be rendered
 //
 
-import * as core from "./main.js";
+import * as core from "./core.js";
 
 let mGLVertexBuffer = null;
 

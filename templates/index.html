@@ -5,7 +5,7 @@
 {% block head %}
 {{ super() }}
 <link rel="icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" type="image/x-icon">
-<script type="module" src="../static/src/main.js"></script>
+<script type="module" src="{{ url_for('static', filename='src/game/Gravitation.js') }}"></script>
 {% endblock %}
 
 {% block body %}
